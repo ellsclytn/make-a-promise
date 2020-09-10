@@ -1,0 +1,17 @@
+{
+  "name": "make-a-promise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "code-surfer": "^3.1.1",
+    "mdx-deck": "^4.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "mdx-deck deck.mdx"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
