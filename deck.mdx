@@ -135,7 +135,7 @@ setTimeout(sayHello, timeout)
 ## What this won't cover
 
 - `async`/`await`
-- A lot of the extra features that the `Promise` implmentation offers
+- A lot of the extra features that the `Promise` implementation offers
 - Why leaves are usually green
 
 <Notes>
@@ -161,3 +161,145 @@ setTimeout(sayHello, timeout)
 - That's spot on. But also pretty useless on its own
 
 </Notes>
+
+---
+
+## What does that look like in action?
+
+<CodeSurfer>
+
+```js
+eventualGreeting()
+  .then(console.log)
+  .catch(console.error)
+
+// eventually logs "Hello, world!", or logs an error
+```
+
+</CodeSurfer>
+
+---
+
+## How does a Promise get created?
+
+<CodeSurfer>
+
+```js
+new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+```js 1[1:12],5[2]
+new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+```js 1[13:34],5[1]
+new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+```js 1[22:43],5[1] subtitle="Let's give that function a name"
+const promiseLogic = (resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+}
+
+new Promise(promiseLogic)
+```
+
+```js 1[7:18],7[13:24] subtitle="Let's give that function a name"
+const promiseLogic = (resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+}
+
+new Promise(promiseLogic)
+```
+
+```js 2:4 subtitle="This should look familiar"
+const promiseLogic = (resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+}
+
+new Promise(promiseLogic)
+```
+
+```js 1[23:29],3
+const promiseLogic = (resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+}
+
+new Promise(promiseLogic)
+```
+
+```js
+const promiseLogic = (resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+}
+
+new Promise(promiseLogic)
+```
+
+```js 7 subtitle="This will immediately create the Promise and execute promiseLogic"
+const promiseLogic = (resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+}
+
+new Promise(promiseLogic)
+```
+
+```js 7 subtitle="So let's wrap a function around it so it won't do anything until we call it"
+const promiseLogic = (resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+}
+
+const eventualGreeting = () => new Promise(promiseLogic)
+```
+
+```js
+const promiseLogic = (resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+}
+
+const eventualGreeting = () => new Promise(promiseLogic)
+
+eventualGreeting()
+  .then(console.log)
+  .catch(console.error)
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- Whatever you call `resolve` with becomes what the `Promise` resolves with. In this case, a string
+
+</Notes>
+
+---
+
+Thanks!
