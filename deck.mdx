@@ -302,4 +302,100 @@ eventualGreeting()
 
 ---
 
+# Extra features of Promises
+
+---
+
+### A Promise always returns a Promise
+
+<Notes>
+
+- Let's assume we have a function which returns a Promise which adds one to whatever we give it, after one second.
+
+</Notes>
+
+<CodeSurfer>
+
+```js
+eventuallyAddOne(5)
+  .then(console.log)
+
+// Eventually gives us 6
+```
+
+```js title="Wow this is awful"
+eventuallyAddOne(5)
+  .then((resultOne) => {
+    eventuallyAddOne(resultOne)
+      .then((resultTwo) => {
+        eventuallyAddOne(resultTwo)
+          .then((resultThree) => {
+            console.log(resultThree)
+          })
+      })
+  })
+
+// Eventually gives us 8
+```
+
+```js title="This is fair bit better"
+eventuallyAddOne(5)
+  .then((result) => eventuallyAddOne(result))
+  .then((result) => eventuallyAddOne(result))
+  .then(console.log)
+
+// Eventually gives us 8
+```
+
+```js title="This makes me happy"
+eventuallyAddOne(5)
+  .then(eventuallyAddOne)
+  .then(eventuallyAddOne)
+  .then(console.log)
+
+// Eventually gives us 8
+```
+
+</CodeSurfer>
+
+---
+
+### No, really, a Promise _always_ returns a Promise
+
+<Notes>
+
+- Let's assume we have a _synchronous_ function which subtracts two
+
+</Notes>
+
+<CodeSurfer>
+
+```js
+const takeTwo = (input) => input - 2
+```
+
+```js
+const takeTwo = (input) => input - 2
+
+eventuallyAddOne(5)
+  .then(takeTwo)
+  .then(console.log)
+
+// Eventually gives us 4
+```
+
+```js title="You could be here for a while. You get the idea."
+eventuallyAddOne(5)
+  .then(takeTwo)
+  .then(takeTwo)
+  .then(eventuallyAddOne)
+  .then(takeTwo)
+  .then(eventuallyAddOne)
+  .then(console.log)
+```
+
+</CodeSurfer>
+
+---
+
 Thanks!
