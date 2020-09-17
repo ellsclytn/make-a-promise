@@ -1,4 +1,4 @@
-import { CodeSurfer } from 'code-surfer'
+import { CodeSurfer, CodeSurferColumns, Step as CSStep } from 'code-surfer'
 import { nightOwl } from "@code-surfer/themes"
 
 export const theme = nightOwl
@@ -701,6 +701,164 @@ function Honour (handler) {
 <Notes>
 
 - So now we can do the whole setTimeout thing we had at the beginning
+
+</Notes>
+
+---
+
+<CodeSurferColumns>
+
+<CSStep>
+
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+}
+```
+
+```js
+const myHonour = Honour((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+</CSStep>
+
+<CSStep>
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+}
+```
+
+```js 1[25:46],2:4,5[1]
+const myHonour = Honour((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+</CSStep>
+
+<CSStep>
+
+```js 1[18:24]
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+}
+```
+
+```js 1[25:46],2:4,5[1]
+const myHonour = Honour((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+</CSStep>
+
+<CSStep>
+
+```js 13
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+}
+```
+
+```js 1[25:46],2:4,5[1]
+const myHonour = Honour((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+</CSStep>
+
+<CSStep>
+
+```js 13
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+}
+```
+
+```js 1[26:40],3
+const myHonour = Honour((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+</CSStep>
+
+</CodeSurferColumns>
+
+<Notes>
+
+- This should look familiar. It's how we make a Promise instance
 - But we still can't access the resolved values
 
 </Notes>
