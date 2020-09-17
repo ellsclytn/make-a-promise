@@ -326,9 +326,9 @@ eventuallyAddOne(5)
 ```js title="Wow this is awful"
 eventuallyAddOne(5)
   .then((resultOne) => {
-    eventuallyAddOne(resultOne)
+    return eventuallyAddOne(resultOne)
       .then((resultTwo) => {
-        eventuallyAddOne(resultTwo)
+        return eventuallyAddOne(resultTwo)
           .then((resultThree) => {
             console.log(resultThree)
           })
@@ -392,6 +392,185 @@ eventuallyAddOne(5)
   .then(takeTwo)
   .then(eventuallyAddOne)
   .then(console.log)
+```
+
+</CodeSurfer>
+
+---
+
+### You can share Promises
+
+<CodeSurfer>
+
+```js title="This is totally valid and works"
+const myFirstPromise = eventuallyAddOne(5)
+
+myFirstPromise
+  .then(takeTwo)
+  .then(console.log)
+
+myFirstPromise
+  .then(eventuallyAddOne)
+  .then(console.log)
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- Note there is one Promise to start with, but two distinct Promise _chains_ which depend on that first Promise resolving
+
+</Notes>
+
+---
+
+## We've got a pretty good idea of what we can do with Promises
+
+---
+
+## We've made Promises
+
+---
+
+# Now let's make `Promise`
+
+---
+
+## Promises are Finite State Machines
+
+<img style={{ maxWidth: '80%' }} src='https://media.prod.mdn.mozit.cloud/attachments/2018/04/18/15911/32e79f722e83940fdaea297acdb5df92/promises.png' />
+
+<Notes>
+
+- three states: pending, fulfilled, rejected
+- a *new* promise is returned from invoking `.then` or `.catch`
+
+</Notes>
+
+---
+
+## A quick reminder
+
+> “The `Promise` object represents the **eventual completion (or failure)** of an asynchronous operation and its **resulting value**.”
+– MDN
+
+---
+
+### Let's start off our state tracking
+
+<CodeSurfer>
+
+```js
+function Promise () {
+  // TODO: Implement Promises
+}
+```
+
+```js
+function Honor () {
+  // TODO: Implement Promises
+}
+```
+
+```js
+function Honor () {
+  let state = 'PENDING'
+}
+```
+
+```js
+function Honor () {
+  let state = 'PENDING'
+  let value
+}
+```
+
+</CodeSurfer>
+
+---
+
+## Now let's handle fulfilment
+
+
+<Notes>
+
+- Fulfilment is just a transition of state and value to something new
+- It's the same core concept between succeeding and failing, just different "state"
+
+</Notes>
+
+---
+
+## Now let's handle fulfilment
+
+<CodeSurfer>
+
+```js
+function Honor () {
+  let state = 'PENDING'
+  let value
+}
+```
+
+```js
+function Honor () {
+  let state = 'PENDING'
+  let value
+
+  const resolve = (newValue) => {
+    state = 'RESOLVED'
+    value = newValue
+  }
+}
+```
+
+```js
+function Honor () {
+  let state = 'PENDING'
+  let value
+
+  const resolve = (newValue) => {
+    state = 'RESOLVED'
+    value = newValue
+  }
+
+  const reject = (newValue) => {
+    state = 'REJECTED'
+    value = newValue
+  }
+}
+```
+
+```js 5:13
+function Honor () {
+  let state = 'PENDING'
+  let value
+
+  const resolve = (newValue) => {
+    state = 'RESOLVED'
+    value = newValue
+  }
+
+  const reject = (newValue) => {
+    state = 'REJECTED'
+    value = newValue
+  }
+}
+```
+
+```js
+function Honor () {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+}
 ```
 
 </CodeSurfer>
