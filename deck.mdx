@@ -467,19 +467,19 @@ function Promise () {
 ```
 
 ```js
-function Honor () {
+function Honour () {
   // TODO: Implement Promises
 }
 ```
 
 ```js
-function Honor () {
+function Honour () {
   let state = 'PENDING'
 }
 ```
 
 ```js
-function Honor () {
+function Honour () {
   let state = 'PENDING'
   let value
 }
@@ -506,14 +506,14 @@ function Honor () {
 <CodeSurfer>
 
 ```js
-function Honor () {
+function Honour () {
   let state = 'PENDING'
   let value
 }
 ```
 
 ```js
-function Honor () {
+function Honour () {
   let state = 'PENDING'
   let value
 
@@ -525,7 +525,7 @@ function Honor () {
 ```
 
 ```js
-function Honor () {
+function Honour () {
   let state = 'PENDING'
   let value
 
@@ -542,7 +542,7 @@ function Honor () {
 ```
 
 ```js 5:13
-function Honor () {
+function Honour () {
   let state = 'PENDING'
   let value
 
@@ -559,7 +559,7 @@ function Honor () {
 ```
 
 ```js
-function Honor () {
+function Honour () {
   let state = 'PENDING'
   let value
 
@@ -574,6 +574,136 @@ function Honor () {
 ```
 
 </CodeSurfer>
+
+---
+
+## A quick reminder on how to make ~~a Promise~~ an Honour
+
+<CodeSurfer>
+
+```js title="We want to be able to use it like this"
+const myHonour = Honour((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+```js 1[18:24],5[2] title="Honour needs to take an argument!"
+const myHonour = Honour((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+```js 1[25:46],2:4,5[1] title="Honour needs to take an argument!"
+const myHonour = Honour((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+```js 1[25:40] title="Honour needs to take an argument!"
+const myHonour = Honour(aHandlerFunction)
+```
+
+</CodeSurfer>
+
+---
+
+## Let's start using parameters
+
+<CodeSurfer>
+
+```js 1
+function Honour () {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+}
+```
+
+```js 1
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+}
+```
+
+```js 10[9:15],11[9:14],13
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+}
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- So now we can do the whole setTimeout thing we had at the beginning
+- But we still can't access the resolved values
+
+</Notes>
 
 ---
 
