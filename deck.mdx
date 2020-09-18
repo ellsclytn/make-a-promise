@@ -1258,4 +1258,1198 @@ function Promise (handler) {
 
 ---
 
+<CodeSurfer>
+
+```js 26:32
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      onFulfillment((value) => {
+        if (state === 'RESOLVED') {
+          thenHandler(value)
+        }
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        // TODO: Implement
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          // TODO: Logic where we know we're in a resolved state
+        })
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          resolve(thenHandler(value))
+        })
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+</CodeSurfer>
+
+---
+
+# Demo time (again)
+
+---
+
+<CodeSurfer>
+
+```js 35
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          resolve(thenHandler(value)) // but what if thenHandler() returns a promise?
+        })
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+        })
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            // it's thennable, it's a promise!
+            // TODO: implement
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+</CodeSurfer>
+
+---
+
+# And another live demo
+
+---
+
+
+# Time to implement `.catch`
+
+<Steps>
+
+It's probably simpler than you expect
+
+</Steps>
+
+---
+
+<CodeSurfer>
+
+```js 26:44
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: () => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+}
+```
+
+```js 48:49
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: () => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: () => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'RESOLVED') {
+            resolve(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+}
+```
+
+```js 45,54
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: () => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'RESOLVED') {
+            resolve(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: (catchHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'RESOLVED') {
+            resolve(value)
+
+            return
+          }
+
+          const result = catchHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+}
+```
+
+</CodeSurfer>
+
+---
+
+# Okay let's trigger some errors
+
+---
+
+# One more thing
+
+---
+
+### You can share Promises
+
+<CodeSurfer>
+
+```js
+const myFirstPromise = eventuallyAddOne(5)
+
+myFirstPromise
+  .then(takeTwo)
+  .then(console.log)
+
+myFirstPromise
+  .then(eventuallyAddOne)
+  .then(console.log)
+```
+
+</CodeSurfer>
+
+---
+
+### But we only allow for one handler
+
+<CodeSurfer>
+
+```js 4,14
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: (catchHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'RESOLVED') {
+            resolve(value)
+
+            return
+          }
+
+          const result = catchHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+}
+```
+
+</CodeSurfer>
+
+---
+
+If only there were a data type which allowed for a collection of other data 🤔
+
+<Steps>
+
+Okay yes, let's use an array.
+
+</Steps>
+
+---
+
+### But we only allow for one handler
+
+<CodeSurfer>
+
+```js 4,14
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: (catchHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'RESOLVED') {
+            resolve(value)
+
+            return
+          }
+
+          const result = catchHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandlers = []
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandlers.push(newFulfillmentHandler)
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: (catchHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'RESOLVED') {
+            resolve(value)
+
+            return
+          }
+
+          const result = catchHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+}
+```
+
+```js 9
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandlers = []
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandlers.push(newFulfillmentHandler)
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: (catchHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'RESOLVED') {
+            resolve(value)
+
+            return
+          }
+
+          const result = catchHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandlers = []
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandlers.forEach((fh) => fh(value))
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandlers.push(newFulfillmentHandler)
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'REJECTED') {
+            reject(value)
+
+            return
+          }
+
+          const result = thenHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    },
+    catch: (catchHandler) => {
+      return new Promise((resolve, reject) => {
+        onFulfillment((value) => {
+          if (state === 'RESOLVED') {
+            resolve(value)
+
+            return
+          }
+
+          const result = catchHandler(value)
+
+          if (typeof result?.then === 'function') {
+            result.then(resolve).catch(reject)
+          } else {
+            resolve(result)
+          }
+        })
+      })
+    }
+  }
+}
+```
+
+</CodeSurfer>
+
+---
+
+# The last planned demo!
+
+---
+
 Thanks!
