@@ -865,4 +865,407 @@ const myHonour = Honour((resolve, reject) => {
 
 ---
 
+# We need `.then` and `.catch`
+
+---
+
+## Promises represent __eventual__ completion
+
+<Steps>
+
+So we need to store our handler so we only call it when ready
+
+</Steps>
+
+---
+
+<CodeSurfer>
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: () => {
+      // TODO: Implement
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      // TODO: Implement
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      if (state === 'RESOLVED') {
+        thenHandler(value) // but what if we're still pending?
+      }
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      // TODO: Implement
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      // TODO: Implement
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+</CodeSurfer>
+
+---
+
+## What does `fulfillmentHandler` need to know?
+
+<Steps>
+
+- Whether it should invoke on success or failure (`then` or `catch`)
+- What value it should pass through to the `then` or `catch`
+- Oh and we should only invoke it when the Honour is fulfilled
+
+</Steps>
+
+---
+
+<CodeSurfer>
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      // TODO: Implement
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      // TODO: Implement
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      // TODO: Implement
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      // TODO: Implement
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      onFulfillment((value) => {
+        if (state === 'RESOLVED') {
+          thenHandler(value)
+        }
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Honour (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
+      onFulfillment((value) => {
+        if (state === 'RESOLVED') {
+          thenHandler(value)
+        }
+      })
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+</CodeSurfer>
+
+---
+
+## We can run this!
+
+---
+
 Thanks!
