@@ -467,19 +467,13 @@ function Promise () {
 ```
 
 ```js
-function Honour () {
-  // TODO: Implement Promises
-}
-```
-
-```js
-function Honour () {
+function Promise () {
   let state = 'PENDING'
 }
 ```
 
 ```js
-function Honour () {
+function Promise () {
   let state = 'PENDING'
   let value
 }
@@ -506,14 +500,14 @@ function Honour () {
 <CodeSurfer>
 
 ```js
-function Honour () {
+function Promise () {
   let state = 'PENDING'
   let value
 }
 ```
 
 ```js
-function Honour () {
+function Promise () {
   let state = 'PENDING'
   let value
 
@@ -525,7 +519,7 @@ function Honour () {
 ```
 
 ```js
-function Honour () {
+function Promise () {
   let state = 'PENDING'
   let value
 
@@ -542,7 +536,7 @@ function Honour () {
 ```
 
 ```js 5:13
-function Honour () {
+function Promise () {
   let state = 'PENDING'
   let value
 
@@ -559,7 +553,7 @@ function Honour () {
 ```
 
 ```js
-function Honour () {
+function Promise () {
   let state = 'PENDING'
   let value
 
@@ -577,36 +571,32 @@ function Honour () {
 
 ---
 
-## A quick reminder on how to make ~~a Promise~~ an Honour
+## A quick reminder on how to make a Promise
 
 <CodeSurfer>
 
 ```js title="We want to be able to use it like this"
-const myHonour = Honour((resolve, reject) => {
+const myPromise = Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('Hello, world!')
   }, 1000)
 })
 ```
 
-```js 1[18:24],5[2] title="Honour needs to take an argument!"
-const myHonour = Honour((resolve, reject) => {
+```js 1[19:26],5[2] title="Promise needs to take an argument!"
+const myPromise = Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('Hello, world!')
   }, 1000)
 })
 ```
 
-```js 1[25:46],2:4,5[1] title="Honour needs to take an argument!"
-const myHonour = Honour((resolve, reject) => {
+```js 1[27:48],2:4,5[1] title="Promise needs to take an argument!"
+const myPromise = Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('Hello, world!')
   }, 1000)
 })
-```
-
-```js 1[25:40] title="Honour needs to take an argument!"
-const myHonour = Honour(aHandlerFunction)
 ```
 
 </CodeSurfer>
@@ -618,7 +608,7 @@ const myHonour = Honour(aHandlerFunction)
 <CodeSurfer>
 
 ```js 1
-function Honour () {
+function Promise () {
   let state = 'PENDING'
   let value
 
@@ -633,7 +623,7 @@ function Honour () {
 ```
 
 ```js 1
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -648,7 +638,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -663,7 +653,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -680,7 +670,7 @@ function Honour (handler) {
 ```
 
 ```js 10[9:15],11[9:14],13
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -712,7 +702,7 @@ function Honour (handler) {
 
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -729,7 +719,7 @@ function Honour (handler) {
 ```
 
 ```js
-const myHonour = Honour((resolve, reject) => {
+const myPromise = Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('Hello, world!')
   }, 1000)
@@ -741,7 +731,7 @@ const myHonour = Honour((resolve, reject) => {
 <CSStep>
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -757,8 +747,8 @@ function Honour (handler) {
 }
 ```
 
-```js 1[25:46],2:4,5[1]
-const myHonour = Honour((resolve, reject) => {
+```js 1[27:48],2:4,5[1]
+const myPromise = Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('Hello, world!')
   }, 1000)
@@ -769,8 +759,8 @@ const myHonour = Honour((resolve, reject) => {
 
 <CSStep>
 
-```js 1[18:24]
-function Honour (handler) {
+```js 1[19:25]
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -786,37 +776,8 @@ function Honour (handler) {
 }
 ```
 
-```js 1[25:46],2:4,5[1]
-const myHonour = Honour((resolve, reject) => {
-  setTimeout(() => {
-    resolve('Hello, world!')
-  }, 1000)
-})
-```
-
-</CSStep>
-
-<CSStep>
-
-```js 13
-function Honour (handler) {
-  let state = 'PENDING'
-  let value
-
-  const fulfill = (newState, newValue) => {
-    state = newState
-    value = newValue
-  }
-
-  const resolve = (newValue) => fulfill('RESOLVED', newValue)
-  const reject = (newValue) => fulfill('REJECTED', newValue)
-
-  handler(resolve, reject)
-}
-```
-
-```js 1[25:46],2:4,5[1]
-const myHonour = Honour((resolve, reject) => {
+```js 1[27:48],2:4,5[1]
+const myPromise = Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('Hello, world!')
   }, 1000)
@@ -828,7 +789,7 @@ const myHonour = Honour((resolve, reject) => {
 <CSStep>
 
 ```js 13
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -844,8 +805,37 @@ function Honour (handler) {
 }
 ```
 
-```js 1[26:40],3
-const myHonour = Honour((resolve, reject) => {
+```js 1[27:48],2:4,5[1]
+const myPromise = Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hello, world!')
+  }, 1000)
+})
+```
+
+</CSStep>
+
+<CSStep>
+
+```js 13
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+}
+```
+
+```js 1[28:42],3
+const myPromise = Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('Hello, world!')
   }, 1000)
@@ -882,7 +872,7 @@ So we need to store our handler so we only call it when ready
 <CodeSurfer>
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -899,7 +889,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -925,7 +915,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -951,7 +941,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -979,7 +969,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
 
@@ -1005,7 +995,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
   let fulfillmentHandler
@@ -1041,7 +1031,7 @@ function Honour (handler) {
 
 - Whether it should invoke on success or failure (`then` or `catch`)
 - What value it should pass through to the `then` or `catch`
-- Oh and we should only invoke it when the Honour is fulfilled
+- Oh and we should only invoke it when the Promise is fulfilled
 
 </Steps>
 
@@ -1050,7 +1040,7 @@ function Honour (handler) {
 <CodeSurfer>
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
   let fulfillmentHandler
@@ -1077,7 +1067,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
   let fulfillmentHandler
@@ -1110,7 +1100,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
   let fulfillmentHandler
@@ -1145,7 +1135,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
   let fulfillmentHandler
@@ -1181,7 +1171,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
   let fulfillmentHandler
@@ -1221,7 +1211,7 @@ function Honour (handler) {
 ```
 
 ```js
-function Honour (handler) {
+function Promise (handler) {
   let state = 'PENDING'
   let value
   let fulfillmentHandler

@@ -1,4 +1,5 @@
-function Honour (handler) {
+function Promise (handler) {
+  debugger
   let state = 'PENDING'
   let value
   let fulfillmentHandler
@@ -36,12 +37,12 @@ function Honour (handler) {
   }
 }
 
-const myHonour = Honour((resolve) => {
+const myPromise = Promise((resolve) => {
   setTimeout(() => {
-    resolve(5)
+    resolve('Hello, world!')
   }, 1000)
 })
 
-myHonour.then((r) => {
+myPromise.then((r) => {
   console.log(`r is ${r}`)
 })
