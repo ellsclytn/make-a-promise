@@ -1197,6 +1197,42 @@ function Promise (handler) {
 
   return {
     then: (thenHandler) => {
+      onFulfillment(thenHandler)
+    },
+    catch: () => {
+      // TODO: Implement
+    }
+  }
+}
+```
+
+```js
+function Promise (handler) {
+  let state = 'PENDING'
+  let value
+  let fulfillmentHandler
+
+  const fulfill = (newState, newValue) => {
+    state = newState
+    value = newValue
+    fulfillmentHandler && fulfillmentHandler(value)
+  }
+
+  const onFulfillment = (newFulfillmentHandler) => {
+    if (state === 'PENDING') {
+      fulfillmentHandler = newFulfillmentHandler
+    } else {
+      newFulfillmentHandler(value)
+    }
+  }
+
+  const resolve = (newValue) => fulfill('RESOLVED', newValue)
+  const reject = (newValue) => fulfill('REJECTED', newValue)
+
+  handler(resolve, reject)
+
+  return {
+    then: (thenHandler) => {
       onFulfillment((value) => {
         if (state === 'RESOLVED') {
           thenHandler(value)
